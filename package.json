@@ -1,0 +1,33 @@
+{
+  "name": "@augmentcode/review-pr-issue-implementation",
+  "version": "0.1.0",
+  "description": "AI-powered GitHub issue implementation validation for pull requests",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/augmentcode/issue-review-pr.git"
+  },
+  "keywords": [
+    "github",
+    "pull-request",
+    "issue",
+    "validation",
+    "ai",
+    "augment",
+    "code-review"
+  ],
+  "author": "Augment Code",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/augmentcode/issue-review-pr/issues"
+  },
+  "homepage": "https://github.com/augmentcode/issue-review-pr#readme",
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  }
+}
+

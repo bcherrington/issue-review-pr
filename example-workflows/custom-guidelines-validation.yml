@@ -1,0 +1,51 @@
+name: Validate Issue Implementation with Custom Guidelines
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: read
+
+jobs:
+  validate-issues:
+    runs-on: ubuntu-latest
+    name: Validate PR implements referenced issues
+    steps:
+      - name: Validate Issue Implementation
+        uses: augmentcode/issue-review-pr@v0
+        with:
+          augment_session_auth: ${{ secrets.AUGMENT_SESSION_AUTH }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pull_number: ${{ github.event.pull_request.number }}
+          repo_name: ${{ github.repository }}
+          custom_guidelines: |
+            ## Project-Specific Validation Guidelines
+            
+            ### Acceptance Criteria
+            - All checkboxes in issue acceptance criteria must be addressed
+            - If an issue has a "Definition of Done" section, all items must be completed
+            
+            ### Security Requirements
+            - Any security concerns mentioned in issues must be fully implemented
+            - Authentication and authorization requirements are critical
+            
+            ### Performance Requirements
+            - If an issue mentions performance targets, verify they are addressed
+            - Look for performance testing or benchmarks if requested
+            
+            ### Documentation
+            - API changes mentioned in issues must include updated documentation
+            - Breaking changes must include migration guides
+            - New features should include usage examples if requested in the issue
+            
+            ### Testing
+            - If an issue requests tests, verify they are included
+            - Critical functionality should have test coverage
+            
+            ### Breaking Changes
+            - Breaking changes mentioned in issues must be clearly documented
+            - Deprecation warnings should be added if requested
+

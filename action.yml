@@ -1,0 +1,70 @@
+name: "Augment Review PR Issue Implementation"
+description: "AI-powered validation of GitHub issue implementations in pull requests"
+author: "Augment Code"
+branding:
+  icon: "check-square"
+  color: "blue"
+
+inputs:
+  augment_session_auth:
+    description: "Augment session authentication JSON containing accessToken and tenantURL. Store as repository secret for security."
+    required: true
+  github_token:
+    description: "GitHub token for API access. Must have 'repo' scope."
+    required: true
+  pull_number:
+    description: "The number of the pull request being reviewed"
+    required: true
+  repo_name:
+    description: "The full name (owner/repo) of the repository"
+    required: true
+  custom_guidelines:
+    description: "Optional custom validation guidelines to include in the issue implementation review process. These will be added to the default guidelines."
+    required: false
+  model:
+    description: "Optional model name to use; passed directly to augmentcode/augment-agent."
+    required: false
+  rules:
+    description: "Optional JSON array of rules file paths to forward as --rules flags to augmentcode/augment-agent."
+    required: false
+  mcp_configs:
+    description: "Optional JSON array of MCP config file paths to forward as --mcp-config flags to augmentcode/augment-agent."
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout PR Head
+      uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+      with:
+        token: ${{ inputs.github_token }}
+        ref: refs/pull/${{ inputs.pull_number }}/head
+        fetch-depth: 0
+
+    - name: Prepare Custom Context
+      id: custom_context
+      shell: bash
+      run: |
+        if [ -n "$CUSTOM_GUIDELINES" ]; then
+          echo 'context<<EOF' >> $GITHUB_OUTPUT
+          echo "$(jq -n --arg guidelines "$CUSTOM_GUIDELINES" '{custom_guidelines: $guidelines}')" >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
+        else
+          echo "context={}" >> $GITHUB_OUTPUT
+        fi
+      env:
+        CUSTOM_GUIDELINES: ${{ inputs.custom_guidelines }}
+
+    - name: Run Augment Agent
+      uses: augmentcode/augment-agent@v0
+      with:
+        augment_session_auth: ${{ inputs.augment_session_auth }}
+        github_token: ${{ inputs.github_token }}
+        template_directory: "${{ github.action_path }}/templates"
+        pull_number: ${{ inputs.pull_number }}
+        repo_name: ${{ inputs.repo_name }}
+        custom_context: ${{ steps.custom_context.outputs.context }}
+        model: ${{ inputs.model }}
+        rules: ${{ inputs.rules }}
+        mcp_configs: ${{ inputs.mcp_configs }}
+

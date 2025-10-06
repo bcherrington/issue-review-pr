@@ -1,0 +1,28 @@
+## Context
+
+You are working on PR #{{ pr.number }} in the repository {{ pr.base.repo.full_name }}.
+
+### Pull Request Information:
+- **Title**: {{ pr.title }}
+- **Author**: {{ pr.user.login }}
+- **Base Branch**: {{ pr.base.ref }}
+- **Head Branch**: {{ pr.head.ref }}
+- **State**: {{ pr.state }}
+- **Created**: {{ pr.created_at }}
+- **Updated**: {{ pr.updated_at }}
+
+{% if pr.body %}
+### PR Description:
+{{ pr.body }}
+{% endif %}
+
+### Changed Files:
+{% for file in files %}
+- `{{ file.filename }}` ({{ file.status }}, +{{ file.additions }} -{{ file.deletions }})
+{% endfor %}
+
+### Full Diff:
+```diff
+{{ diff }}
+```
+

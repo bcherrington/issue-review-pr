@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+bun.lock
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Templates (preserve formatting)
+templates/**/*.njk
+
+# Documentation
+*.md
+
+# Config files
+.env
+.env.*
+
+# IDE
+.idea/
+.vscode/
+

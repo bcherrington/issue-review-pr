@@ -1,0 +1,110 @@
+## Output Format Requirements:
+
+### Review Structure:
+Your review must follow this structure:
+
+1. **Issue Reference Summary** (in review body):
+   - List all issues referenced in commit messages
+   - Note any issues that couldn't be found or accessed
+   - Provide a brief overview of validation results
+
+2. **Inline Comments** (for specific gaps):
+   - Anchor comments to specific lines in the diff where functionality is missing
+   - Reference the issue number and specific requirement
+   - Explain what's missing and why it matters
+   - Provide examples from the issue description
+
+3. **Review Summary** (max 5 sentences):
+   - Overview of which issues were validated
+   - Overall implementation status (complete, partial, gaps identified)
+   - High-level summary of any critical gaps
+   - Do NOT include code blocks or file/line references in the summary
+   - End with the feedback request emoji line
+
+### Inline Comment Format:
+When posting inline comments about implementation gaps, use this structure:
+
+```
+**Issue #[NUMBER]: [Requirement Title/Summary]**
+
+The issue requested: [Quote or paraphrase the specific requirement from the issue]
+
+Implementation gap: [Explain what's missing in the code]
+
+Reference: [Link to the specific part of the issue where this requirement is stated]
+```
+
+### Code Examples in Comments:
+When you need to show code examples:
+- Use regular fenced code blocks with language tags (```javascript, ```python, etc.)
+- Do NOT use GitHub suggestion blocks
+- Label sections clearly: "Issue requirement:", "Current implementation:", "Missing functionality:"
+
+### Review Summary Format:
+```
+Issue implementation validation for PR #[NUMBER]:
+- Referenced issues: #123, #456, #789
+- Validation status: [All requirements addressed / Implementation gaps identified / No issues referenced]
+- [Brief summary of findings]
+
+---
+*🤖 Automated issue implementation validation complete. Please react with 👍 or 👎 on the individual review comments to provide feedback on their usefulness.*
+```
+
+### Special Case Formats:
+
+**No Issues Referenced:**
+```
+No GitHub issues were referenced in the commit messages for this PR.
+
+To enable automated issue implementation validation, reference issues in commit messages using patterns like:
+- `fixes #123` - Closes issue when PR is merged
+- `closes #456` - Closes issue when PR is merged  
+- `#789` - References issue without closing
+
+This helps ensure PRs fully implement the requested functionality.
+```
+
+**All Requirements Met:**
+```
+Issue implementation validation completed for PR #[NUMBER].
+
+Referenced issues: #123, #456
+All requirements from the referenced issues appear to be fully addressed by this PR.
+
+---
+*🤖 Automated issue implementation validation complete. Please react with 👍 or 👎 if you found this validation helpful.*
+```
+
+**Issues Not Found:**
+```
+Issue reference validation for PR #[NUMBER]:
+
+The following issue references were found in commit messages but could not be accessed:
+- #123 - Issue not found or not accessible
+- #456 - Issue not found or not accessible
+
+Please verify these issue numbers are correct and accessible in this repository.
+```
+
+### Markdown Formatting:
+- Use **bold** for emphasis on issue numbers and requirement titles
+- Use `code formatting` for file names, function names, and code references
+- Use > blockquotes for quoting issue requirements
+- Use bullet points for lists of requirements or gaps
+- Use links to reference specific issues: `#123` or `[Issue #123](URL)`
+
+### Tone and Language:
+- Professional and constructive
+- Focus on helping ensure completeness
+- Avoid accusatory language
+- Use collaborative phrasing: "appears to be missing", "doesn't seem to include", "consider adding"
+- Acknowledge partial implementations: "implements X but not Y"
+- Be specific and concrete, not vague
+
+### Length Guidelines:
+- Review summary: Maximum 5 sentences
+- Inline comments: 2-5 sentences per gap, plus examples
+- Keep feedback focused and actionable
+- Don't repeat the same information multiple times
+
